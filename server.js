@@ -9,10 +9,8 @@ app.use(express.json());
 const SECRET_KEY = process.env.SECRET_KEY;
 
 app.post("/create-payment-sessions", async (_req, res) => {
-  // Create a PaymentSession
-  const request = await fetch(
-    "https://api.sandbox.checkout.com/payment-sessions",
-    {
+  try {
+    const response = await fetch("https://api.sandbox.checkout.com/payment-sessions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${SECRET_KEY}`,
@@ -57,11 +55,9 @@ app.post("/create-payment-sessions", async (_req, res) => {
             country_code: "+44",
           },
         },
-        risk: {
-          enabled: true,
-        },
-        success_url: "https://cko-flow.onrender.com/?status=succeeded",
-        failure_url: "https://cko-flow.onrender.com/?status=failed",
+        risk: { enabled: true },
+        success_url: "https://cko-flow.onrender.com/?status=success",
+        failure_url: "https://cko-flow.onrender.com/?status=failure",
         metadata: {},
         items: [
           {
@@ -76,13 +72,16 @@ app.post("/create-payment-sessions", async (_req, res) => {
           },
         ],
       }),
-    }
-  );
+    });
 
-  const parsedPayload = await request.json();
-
-  res.status(request.status).send(parsedPayload);
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch (error) {
+    console.error("Payment session creation failed:", error);
+    res.status(500).json({ error: "Payment session creation failed" });
+  }
 });
+
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/index.html");
