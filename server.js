@@ -60,8 +60,8 @@ app.post("/create-payment-sessions", async (_req, res) => {
         risk: {
           enabled: true,
         },
-        success_url: "https://cko-flow-w5p2.onrender.com/?status=succeeded",
-        failure_url: "https://cko-flow-w5p2.onrender.com/?status=failed",
+        success_url: "https://cko-flow.onrender.com/?status=succeeded",
+        failure_url: "https://cko-flow.onrender.com/?status=failed",
         metadata: {},
         items: [
           {
