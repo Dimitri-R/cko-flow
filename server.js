@@ -9,6 +9,7 @@ app.use(express.json());
 const SECRET_KEY = process.env.SECRET_KEY;
 
 app.post("/create-payment-sessions", async (_req, res) => {
+  console.log("Received request to /create-payment-sessions");
   // Create a PaymentSession
   const request = await fetch(
     "https://api.sandbox.checkout.com/payment-sessions",
