@@ -1,7 +1,7 @@
 /* global CheckoutWebComponents */
 (async () => {
   // Insert your public key here
-  const PUBLIC_KEY = "{your_public_key}";
+  const PUBLIC_KEY = "pk_sbox_gztklkcll6soez4h2jc3k6fbmeb";
 
   const response = await fetch("/create-payment-sessions", { method: "POST" }); // Order
   const paymentSession = await response.json();
