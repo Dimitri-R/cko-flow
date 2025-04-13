@@ -5,7 +5,7 @@
 
   const response = await fetch("/create-payment-sessions", { method: "POST" }); // Order
   const sessionResponse = await response.json();
-  const paymentSession = sessionResponse.id;
+  const paymentSession = sessionResponse.cko_payment_session_id;
 
   if (!response.ok) {
     console.error("Error creating payment session", paymentSession);
