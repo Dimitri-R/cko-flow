@@ -4,7 +4,8 @@
   const PUBLIC_KEY = "pk_sbox_gztklkcll6soez4h2jc3k6fbmeb";
 
   const response = await fetch("/create-payment-sessions", { method: "POST" }); // Order
-  const paymentSession = await response.json();
+  const sessionResponse = await response.json();
+  const paymentSession = sessionResponse.id;
 
   if (!response.ok) {
     console.error("Error creating payment session", paymentSession);
