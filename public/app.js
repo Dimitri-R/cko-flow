@@ -23,6 +23,8 @@
     },
     onPaymentCompleted: (_component, paymentResponse) => {
       console.log("Create Payment with PaymentId: ", paymentResponse.id);
+      console.log("Payment completed callback fired!");
+      console.log("Payment ID:", paymentResponse.id);
     },
     onChange: (component) => {
       console.log(
