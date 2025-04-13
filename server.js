@@ -80,7 +80,7 @@ app.post("/create-payment-sessions", async (_req, res) => {
   );
 
   const parsedPayload = await request.json();
-
+  console.log("Payment Session Response from CKO:", parsedPayload);
   res.status(request.status).send(parsedPayload);
 });
 
