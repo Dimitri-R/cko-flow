@@ -9,8 +9,10 @@ app.use(express.json());
 const SECRET_KEY = process.env.SECRET_KEY;
 
 app.post("/create-payment-sessions", async (_req, res) => {
-  try {
-    const response = await fetch("https://api.sandbox.checkout.com/payment-sessions", {
+  // Create a PaymentSession
+  const request = await fetch(
+    "https://api.sandbox.checkout.com/payment-sessions",
+    {
       method: "POST",
       headers: {
         Authorization: `Bearer ${SECRET_KEY}`,
@@ -55,9 +57,11 @@ app.post("/create-payment-sessions", async (_req, res) => {
             country_code: "+44",
           },
         },
-        risk: { enabled: true },
-        success_url: "https://cko-flow.onrender.com/?status=success",
-        failure_url: "https://cko-flow.onrender.com/?status=failure",
+        risk: {
+          enabled: true,
+        },
+        success_url: "https://cko-flow.onrender.com/?status=succeeded",
+        failure_url: "https://cko-flow.onrender.com/?status=failed",
         metadata: {},
         items: [
           {
@@ -72,45 +76,14 @@ app.post("/create-payment-sessions", async (_req, res) => {
           },
         ],
       }),
-    });
+    }
+  );
 
-    const data = await response.json();
-    res.status(response.status).json(data);
-  } catch (error) {
-    console.error("Payment session creation failed:", error);
-    res.status(500).json({ error: "Payment session creation failed" });
-  }
-});
+  const parsedPayload = await request.json();
 
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/index.html");
+  res.status(request.status).send(parsedPayload);
 });
 
 app.listen(3000, () =>
   console.log("Node server listening on port 3000: http://localhost:3000/")
 );
-
-app.get("/verify-payment", async (req, res) => {
-  const paymentId = req.query["cko-payment-id"];
-  if (!paymentId) return res.status(400).send("Missing payment ID");
-
-  try {
-    const request = await fetch(
-      `https://api.sandbox.checkout.com/payments/${paymentId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${SECRET_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const payment = await request.json();
-    console.log("Payment status:", payment.status);
-    res.json(payment);
-  } catch (error) {
-    console.error("Payment lookup failed", error);
-    res.status(500).send("Payment verification failed");
-  }
-});
