@@ -91,3 +91,27 @@ app.get("/", (req, res) => {
 app.listen(3000, () =>
   console.log("Node server listening on port 3000: http://localhost:3000/")
 );
+
+app.get("/verify-payment", async (req, res) => {
+  const paymentId = req.query["cko-payment-id"];
+  if (!paymentId) return res.status(400).send("Missing payment ID");
+
+  try {
+    const request = await fetch(
+      `https://api.sandbox.checkout.com/payments/${paymentId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${SECRET_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const payment = await request.json();
+    console.log("Payment status:", payment.status);
+    res.json(payment);
+  } catch (error) {
+    console.error("Payment lookup failed", error);
+    res.status(500).send("Payment verification failed");
+  }
+});
