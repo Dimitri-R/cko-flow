@@ -24,6 +24,12 @@
     onPaymentCompleted: (_component, paymentResponse) => {
       console.log("Create Payment with PaymentId: ", paymentResponse.id);
       console.log("Payment ID:", paymentResponse.id); // Useful for debugging or verifying from backend
+
+       // Show custom confirmation message
+      document.getElementById("paymentMessage").textContent =
+      "The payment has been authorized and will be captured once the parcel has been shipped.";
+      document.getElementById("paymentMessage").style.display = "block";
+
     },
     onChange: (component) => {
       console.log(
