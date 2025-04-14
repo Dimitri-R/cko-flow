@@ -11,7 +11,7 @@ app.use(express.json());
 // Load Checkout.com's secret key from environment variables
 const SECRET_KEY = process.env.SECRET_KEY;
 
-// Create a new Payment Session when the frontend sends a POST request
+// Create a new Payment Session
 app.post("/create-payment-sessions", async (_req, res) => {
   try {
     const response = await fetch("https://api.sandbox.checkout.com/payment-sessions", {
@@ -21,7 +21,6 @@ app.post("/create-payment-sessions", async (_req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // Total amount in minor units (e.g., 6540 = £65.40)
         amount: 6540,
         currency: "GBP",
         reference: "ORD-123A",
@@ -35,13 +34,11 @@ app.post("/create-payment-sessions", async (_req, res) => {
           city: "London",
         },
 
-        // Customer info
         customer: {
           email: "jia.tsang@example.com",
           name: "Jia Tsang",
         },
 
-        // Shipping and billing addresses
         shipping: {
           address: {
             address_line1: "123 High St.",
@@ -68,19 +65,16 @@ app.post("/create-payment-sessions", async (_req, res) => {
             country_code: "+44",
           },
         },
-
-        // Enable risk checks
+        
         risk: {
           enabled: true,
         },
 
-        // Redirect URLs after the payment flow
         success_url: "http://localhost:3000/?status=succeeded",
         failure_url: "http://localhost:3000/?status=failed",
 
         metadata: {},
 
-        // Cart items
         items: [
           {
             name: "Guitar",
