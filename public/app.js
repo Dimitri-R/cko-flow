@@ -27,7 +27,7 @@
 
        // Show custom confirmation message
       document.getElementById("paymentMessage").textContent =
-      "The payment has been authorized and will be captured once the parcel has been shipped.";
+      "Payment has been authorized. Your parcel will be shipped shortly, and the amount will be captured upon dispatch.";
       document.getElementById("paymentMessage").style.display = "block";
 
     },
