@@ -3,16 +3,16 @@
   // Insert your public key here
   const PUBLIC_KEY = "pk_sbox_gztklkcll6soez4h2jc3k6fbmeb";
 
-  const response = await fetch("/create-payment-sessions", { method: "POST" }); // Order
-  const sessionResponse = await response.json();
-  console.log("Session Response:", sessionResponse);
-  const paymentSession = sessionResponse;
+  // Request a new payment session from the backend
+  const response = await fetch("/create-payment-sessions", { method: "POST" });
+  const paymentSession = await response.json();
 
   if (!response.ok) {
     console.error("Error creating payment session", paymentSession);
     return;
   }
 
+  // Initialize Checkout Web Components with the session and configuration
   const checkout = await CheckoutWebComponents({
     publicKey: PUBLIC_KEY,
     environment: "sandbox",
@@ -23,8 +23,7 @@
     },
     onPaymentCompleted: (_component, paymentResponse) => {
       console.log("Create Payment with PaymentId: ", paymentResponse.id);
-      console.log("Payment completed callback fired!");
-      console.log("Payment ID:", paymentResponse.id);
+      console.log("Payment ID:", paymentResponse.id); // Useful for debugging or verifying from backend
     },
     onChange: (component) => {
       console.log(
@@ -38,6 +37,7 @@
     },
   });
 
+  // Create and mount the Flow component to the container
   const flowComponent = checkout.create("flow");
 
   flowComponent.mount(document.getElementById("flow-container"));
