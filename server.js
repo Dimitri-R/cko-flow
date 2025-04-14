@@ -12,11 +12,10 @@ app.use(express.json());
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // Webhook receiver: Logs payment updates from CKO
-app.post("/webhook", express.raw({ type: "*/*" }), (req, res) => {
+app.post("/webhook", (req, res) => {
   try {
-    const event = JSON.parse(req.body.toString());
+    const event = req.body;
     console.log("Webhook received:", event);
-    // Here we could act on event.type === 'payment_approved', etc.
     res.status(200).send("Webhook received");
   } catch (err) {
     console.error("Webhook error:", err);
