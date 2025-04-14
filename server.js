@@ -11,6 +11,19 @@ app.use(express.json());
 // Load Checkout.com's secret key from environment variables
 const SECRET_KEY = process.env.SECRET_KEY;
 
+// Webhook receiver: Logs payment updates from CKO
+app.post("/webhook", express.raw({ type: "*/*" }), (req, res) => {
+  try {
+    const event = JSON.parse(req.body.toString());
+    console.log("Webhook received:", event);
+    // Here we could act on event.type === 'payment_approved', etc.
+    res.status(200).send("Webhook received");
+  } catch (err) {
+    console.error("Webhook error:", err);
+    res.status(400).send("Invalid webhook");
+  }
+});
+
 // Create a new Payment Session
 app.post("/create-payment-sessions", async (_req, res) => {
   try {
