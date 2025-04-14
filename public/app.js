@@ -58,7 +58,15 @@ const paymentId = urlParams.get("cko-payment-id");
 
 if (paymentStatus === "succeeded") {
   triggerToast("successToast");
+
+  const messageBox = document.getElementById("paymentMessage");
+  if (messageBox) {
+    messageBox.innerText =
+      "✅ Payment has been authorized. Your parcel will be shipped shortly, and the amount will be captured upon dispatch.";
+    messageBox.style.display = "block";
+  }
 }
+
 
 if (paymentStatus === "failed") {
   triggerToast("failedToast");
