@@ -29,6 +29,7 @@ This project demonstrates an end-to-end payment flow integration using [Checkout
    ```bash
    export SECRET_KEY="{your_secret_key}"
    ```
+- PUBLIC_KEY: Either update it in app.js or, preferably, set up dynamic rendering to avoid exposing it.
 
 3. **Run the server:**
 
