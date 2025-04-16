@@ -37,7 +37,7 @@ app.post("/create-payment-sessions", async (_req, res) => {
         currency: "GBP",
         reference: "ORD-123A",
         description: "Payment for Guitars and Amps",
-        capture: false,
+        capture: true,
 
         // Explicitly specify the processing channel
         processing_channel_id: "pc_ilbbwdqbdzkezerlhndhr6aahm",
